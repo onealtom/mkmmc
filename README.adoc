@@ -1,0 +1,40 @@
+== 命令格式
+
+[source,bash]
+----
+$ sudo ./mkmmc.sh /dev/sdb # <1>
+----
+
+<1> /dev/sdb 为插入的SD卡节点
+
+== 目录结构
+
+[source,bash]
+----
+.
+├── images		# <1>
+│   ├── 7z015.bit		# <10>
+│   ├── BOOT.bin		# <11>
+│   ├── devicetree.dtb		# <12>
+│   ├── mmc_uEnv.txt		# <13>
+│   ├── ramdisk_uEnv.txt	# <14>
+│   ├── uEnv.txt		# <15>
+│   └── uImage			# <16>
+├── mkmmc.sh		# <2>
+├── README.adoc		# <3>
+└── rootfs		# <4>
+    ├── rootfs.cpio.uboot	# <40>
+    └── rootfs.tar		# <41>
+----
+
+<1> 镜像文件，脚本将该目录所有文件拷贝到FAT分区，镜像文件名如下
+<10> 7z015.bit： bitstream文件
+<11> BOOT.bin： Bootloader
+<12> devicetree.dtb： 设备树
+<13> mmc_uEnv.txt： MMC EXT4 作为rootfs的引导环境变量副本文件，重命名覆盖uEnv.txt文件更换引导
+<14> ramdisk_uEnv.txt： ramdisk 作为rootfs的引导环境变量副本文件，重命名覆盖uEnv.txt文件更换引导
+<15> uEnv.txt： U-boot环境变量文件，默认与<13>相同
+<16> uImage： 带U-boot head的内核镜像文件
+<4> rootfs
+<40> rootfs.cpio.uboot: ramdisk文件镜像，脚本会将该镜像拷贝到FAT分区，并重命名为uramdisk.image.gz
+<41> rootfs.tar	根文件系统二进制打包文件，会解压到EXT4分区
